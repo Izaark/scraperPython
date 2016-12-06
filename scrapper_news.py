@@ -1,11 +1,10 @@
 from bs4 import BeautifulSoup
 import requests
 import threading
-
+#from pymongo import MongoClient
 
 Google_news = 'https://news.google.com.mx/'
 Custome_target = 'www.milenio.com'
-
 def get_beautiful_soup(href):
 	re = requests.get(href)
 	if re.status_code==200:
@@ -25,14 +24,14 @@ def set_robot(article):
 			for paragraph in paragraphs:
 				final_article = '{} {}'.format(final_article, paragraph)
 				print final_article
-
 def scraping_site():
 	soup = get_beautiful_soup(Google_news)
 	if soup is not None:
+		#client = MongoClient('localhost',27017)
 		articles = soup.find_all('h2',{'class':'esc-lead-article-title'})
 		for article in articles:
-			robot = threading.Thread(name='set_robot',target=set_robot, args =(article,))
-			robot.start()			
+			robot1 = threading.Thread(name='set_robot',target=set_robot, args =(article,))
+			robot1.start()			
 	else:
 		print 'error !!'
 
